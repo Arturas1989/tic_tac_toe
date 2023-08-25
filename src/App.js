@@ -80,14 +80,7 @@ function Game(){
       </li>
     );
   })
-
-  function sortMoves(){
-    moves.reverse();
-    
-    setToggleSort(1 - toggleSort);
-  }
-  console.log(moves)
-  // onClick = {() => sortMoves()}
+  
   const sortMessage = toggleSort ? 'sort moves ascending' : 'sort moves descending';
   return (
     <div className="game">
@@ -98,7 +91,7 @@ function Game(){
         <ol>{ toggleSort ? moves.slice().reverse() : moves}</ol>
       </div>
       <div className="game-info">
-        <button onClick = {() => sortMoves()}>{sortMessage}</button>
+        <button onClick = {() => setToggleSort(1 - toggleSort)}>{sortMessage}</button>
       </div>
     </div>
   );
