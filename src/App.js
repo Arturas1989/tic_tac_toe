@@ -58,8 +58,23 @@ function Game(){
     setCurrentMove(nextMove);
   }
 
+  const historyLength = history.length;
   const moves = history.map((squares, move) => {
-    const description = move > 0 ? 'Go to move #' + move : 'Go to game start';
+    let description;
+    if(historyLength === 0 || move === historyLength - 1){
+      description = 'You are at move #' + currentMove;
+      return (
+        <li key = {move}>
+          <div > {description} </div>
+        </li>
+      );
+    }
+
+    
+    description = move > 0 ? 'Go to move #' + move : 'Go to game start';
+
+    console.log(squares);
+    description = move > 0 ? 'Go to move #' + move : 'Go to game start';
     return (
       <li key = {move}>
         <button onClick = {() => jumpTo(move)}> {description} </button>
