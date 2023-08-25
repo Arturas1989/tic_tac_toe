@@ -23,9 +23,9 @@ function Board({xIsNext, squares, onPlay}) {
     let row = []
     for(let j = 0; j < 3; j++){
       const num = i*3+j;
-      row.push(<Square value = {squares[num]} onSquareClick = {() => handleClick(num)} />);
+      row.push(<Square key={num} value = {squares[num]} onSquareClick = {() => handleClick(num)} />);
     }
-    const board_row = <div className="board-row">{row}</div>
+    const board_row = <div key={i} className="board-row">{row}</div>
     allSquares.push(board_row);
   }
   return (
@@ -41,6 +41,7 @@ function Board({xIsNext, squares, onPlay}) {
 function Game(){
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [toggleSort, setToggleSort] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
@@ -54,6 +55,8 @@ function Game(){
     setCurrentMove(nextMove);
   }
 
+  
+
   const historyLength = history.length;
   const moves = history.map((squares, move) => {
     let description;
@@ -61,15 +64,15 @@ function Game(){
       description = 'You are at move #' + currentMove;
       return (
         <li key = {move}>
-          <div > {description} </div>
+          <div> {description} </div>
         </li>
       );
     }
 
     
+    
     description = move > 0 ? 'Go to move #' + move : 'Go to game start';
 
-    console.log(squares);
     description = move > 0 ? 'Go to move #' + move : 'Go to game start';
     return (
       <li key = {move}>
@@ -78,13 +81,24 @@ function Game(){
     );
   })
 
+  function sortMoves(){
+    moves.reverse();
+    
+    setToggleSort(1 - toggleSort);
+  }
+  console.log(moves)
+  // onClick = {() => sortMoves()}
+  const sortMessage = toggleSort ? 'sort moves ascending' : 'sort moves descending';
   return (
     <div className="game">
       <div className="game-board">
         <Board xIsNext = {xIsNext} squares = {currentSquares} onPlay = {handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{ moves}</ol>
+        <ol>{ toggleSort ? moves.slice().reverse() : moves}</ol>
+      </div>
+      <div className="game-info">
+        <button onClick = {() => sortMoves()}>{sortMessage}</button>
       </div>
     </div>
   );
