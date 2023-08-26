@@ -3,14 +3,19 @@ import './App.css';
 import { useState } from 'react';
 
 function Square({value, onSquareClick}){
-  return <button className="square" onClick = {onSquareClick}>{value}</button>
+  return <button className="square highlight" onClick = {onSquareClick}>{value}</button>
 }
 
 function Board({xIsNext, squares, onPlay}) {
 
   const nextValue = xIsNext ? 'X' : 'O';
-  const winner = calculateWinner(squares);
-  const gameStatus = winner ? 'Winner: ' + winner : 'Next player: ' + nextValue;
+  const gameResults = results(squares);
+  const winner = gameResults[1];
+  const gameIsFinished = squares.every(square => square);
+
+  let gameStatus;
+  gameStatus = winner ? 'Winner: ' + winner : 'Next player: ' + nextValue;
+  if(gameIsFinished && !winner) gameStatus = 'Game ended in a draw';
 
   function handleClick(i){
     if(squares[i] || winner) return;
@@ -97,7 +102,7 @@ function Game(){
   );
 }
 
-function calculateWinner(board){
+function results(squares){
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -110,9 +115,9 @@ function calculateWinner(board){
   ];
   for(let i = 0; i < lines.length; i++){
     const [a, b, c] = lines[i];
-    if(board[a] && board[a] === board[b] && board[a] === board[c]) return board[a];
+    if(squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) return [lines[i], squares[a]];
   }
-  return null;
+  return [null, null];
 }
 
 export default Game;
