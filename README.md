@@ -1,4 +1,18 @@
-# Getting Started with Create React App
+# View final project version at: [tic_tac_toe](https://arturas1989.github.io/tic_tac_toe/)
+
+## About the project
+
+Project includes:
+- tic_tac_toe game
+- next player that moves determination
+- determining ending (winner or a draw)
+- move history, ability to jump from move to move
+- sorting moves (ascending or descending)
+- highlighting winning squares
+- calculating move row and column
+- current move tracking
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
