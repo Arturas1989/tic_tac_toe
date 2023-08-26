@@ -2,8 +2,8 @@
 import './App.css';
 import { useState } from 'react';
 
-function Square({value, onSquareClick}){
-  return <button className="square highlight" onClick = {onSquareClick}>{value}</button>
+function Square({className, value, onSquareClick}){
+  return <button className={className} onClick = {onSquareClick}>{value}</button>
 }
 
 function Board({xIsNext, squares, onPlay}) {
@@ -11,11 +11,12 @@ function Board({xIsNext, squares, onPlay}) {
   const nextValue = xIsNext ? 'X' : 'O';
   const gameResults = results(squares);
   const winner = gameResults[1];
-  const gameIsFinished = squares.every(square => square);
+  const winningSquares = gameResults[0];
+  const gameIsDrawn = squares.every(square => square) && !winner;
 
   let gameStatus;
   gameStatus = winner ? 'Winner: ' + winner : 'Next player: ' + nextValue;
-  if(gameIsFinished && !winner) gameStatus = 'Game ended in a draw';
+  if(gameIsDrawn) gameStatus = 'Game ended in a draw';
 
   function handleClick(i){
     if(squares[i] || winner) return;
@@ -28,7 +29,8 @@ function Board({xIsNext, squares, onPlay}) {
     let row = []
     for(let j = 0; j < 3; j++){
       const num = i*3+j;
-      row.push(<Square key={num} value = {squares[num]} onSquareClick = {() => handleClick(num)} />);
+      const class_name = winner && winningSquares.includes(num) ? 'square highlight' : 'square';
+      row.push(<Square key={num} className = {class_name} value = {squares[num]} onSquareClick = {() => handleClick(num)} />);
     }
     const board_row = <div key={i} className="board-row">{row}</div>
     allSquares.push(board_row);
