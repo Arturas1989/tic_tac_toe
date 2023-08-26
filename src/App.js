@@ -67,8 +67,8 @@ function Game(){
   const historyLength = history.length;
   const moves = history.map((squares, move) => {
     let description;
-    let row = Math.floor(move/3) + 1;
-    let col = move % 3 + 1;
+    const row = Math.floor(move/3) + 1;
+    const col = move % 3 + 1;
     if(historyLength === 0 || move === historyLength - 1){
       description = 'You are at move #' + currentMove;
       return (
